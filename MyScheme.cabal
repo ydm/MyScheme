@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 85c4cab6549e16012fb4eb65de9ca894511ab9271213d53b46c4dfd26798e155
+-- hash: d6c5b788ac7efd062466ac1c98507e32cc3e27b400890b44480a3fd7bdb2b258
 
 name:           MyScheme
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Scheme.Core
       Scheme.Eval
       Scheme.Parser
+      Scheme.ShowText
       Scheme.Syntax
   other-modules:
       Paths_MyScheme
@@ -53,6 +54,8 @@ executable MyScheme-exe
   build-depends:
       MyScheme
     , base >=4.7 && <5
+    , text
+    , transformers
   default-language: Haskell2010
 
 test-suite MyScheme-test

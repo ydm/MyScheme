@@ -39,6 +39,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - MyScheme
+    - text # TODO
+    - transformers # TODO
 
 tests:
   MyScheme-test:
