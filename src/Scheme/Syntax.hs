@@ -7,12 +7,7 @@ import qualified Data.Text as T
 type Signature = [Node] -> IO Node
 
 data Node = Keyword T.Text
-          | Function
-            { fnName :: T.Text
-            , fnMinArgs :: Int
-            , fnMaxArgs :: Int
-            , fn :: Signature
-            }
+          | Function T.Text Int Int Signature -- name, minArgs, maxArgs, fn
           | List [Node]
           | Nil
           | NumInteger Int
@@ -20,27 +15,25 @@ data Node = Keyword T.Text
           | Symbol T.Text
           | Variable T.Text
 
+data Sexp = Atom a
+          | Cons Sexp Sexp
+
 instance Show Node where
   show (Function name _ _ _) = T.unpack name
   show (List []) = show Nil
   show (List xs) = "(" ++ unwords (map show xs) ++ ")"
+  show Nil = "()"
   show (NumInteger x) = show x
   show (Quote x) = "(quote " ++ show x ++ ")"
   show (Symbol x) = T.unpack x
   -- show (Variable x) = T.unpack x
-  show Nil = "()"
-
-instance Num Node where
-  (NumInteger x) + (NumInteger y) = NumInteger $ x + y
-  (NumInteger x) * (NumInteger y) = NumInteger $ x * y
-  abs (NumInteger x)              = NumInteger $ abs x
-  signum (NumInteger x)           = NumInteger $ signum x
-  fromInteger x                   = NumInteger $ fromInteger x
-  negate (NumInteger x)           = NumInteger $ negate x
 
 
 simple :: Node
 simple = List [Symbol "+", NumInteger 1, NumInteger 2, NumInteger 3]
+
+wrongTypeArg :: Node
+wrongTypeArg = List [Symbol "+", NumInteger 1, NumInteger 2, NumInteger 3, Symbol "qwe"]
 
 wrong :: Node
 wrong = List [Symbol "+", NumInteger 1, NumInteger 2, Symbol "qwe"]
